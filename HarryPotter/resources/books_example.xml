@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+	<book>
+		<title>Harry Potter et la chambre des secrets</title>
+		<description>Une rentrée fracassante en voiture volante, une étrange malédiction qui s'abat sur les élèves, cette deuxième année à l'école des sorciers</description>
+		<nbChapters>18</nbChapters>
+		<nbPages>364</nbPages>
+		<publicationDate>23/03/1999</publicationDate>
+	</book>
+	<book>
+		<title>Harry Potter à l'école des sorciers</title>
+		<description>Orphelin, le jeune Harry Potter peut enfin quitter ses tyranniques oncle et tante Dursley lorsqu'un curieux messager lui révèle qu'il est un sorcier. À 11 ans, Harry va enfin pouvoir intégrer la légendaire école de sorcellerie de Poudlard, y trouver une famille digne de ce nom et des amis, développer ses dons, et préparer son glorieux avenir.</description>
+		<nbChapters>17</nbChapters>
+		<nbPages>306</nbPages>
+		<publicationDate>16/11/1998</publicationDate>
+	</book>
+	<book>
+		<title>Harry Potter et l'ordre du Phénix</title>
+		<description>Alors qu'il entame sa cinquième année d'études à Poudlard, Harry Potter découvre que la communauté des sorciers ne semble pas croire au retour de Voldemort, convaincue par une campagne de désinformation orchestrée par le Ministre de la Magie Cornelius Fudge.</description>
+		<nbChapters>38</nbChapters>
+		<nbPages>975</nbPages>
+		<publicationDate>03/12/2003</publicationDate>
+	</book>
+	<book>
+		<title>Harry Potter et la coupe de feu</title>
+		<description>La quatrième année à l'école de Poudlard est marquée par le Tournoi des trois sorciers. Les participants sont choisis par la fameuse coupe de feu qui est à l'origine d'un scandale. Elle sélectionne Harry Potter alors qu'il n'a pas l'âge légal requis !</description>
+		<nbChapters>37</nbChapters>
+		<nbPages>656</nbPages>
+		<publicationDate>29/11/2000</publicationDate>
+	</book>
+	<book>
+		<title>Harry Potter et le prince de sang mêlé</title>
+		<description>L'étau démoniaque de Voldemort se resserre sur l'univers des `Moldus' et le monde de la sorcellerie. Poudlard a cessé d'être un havre de paix, le danger rode au coeur du château. Cependant, Dumbledore est plus décidé que jamais à préparer Harry à son combat final, désormais imminent.</description>
+		<nbChapters>30</nbChapters>
+		<nbPages>720</nbPages>
+		<publicationDate>01/10/2005</publicationDate>
+	</book>
+</books>

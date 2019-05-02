@@ -1,0 +1,11 @@
+{
+	"actors": [
+		{"lastname":"Watson", "firstname":"Emma", "birthcity":"Paris", "role":"Hermione Granger", "birthdate":"15/04/1990"},
+		{"lastname":"Radcliffe", "firstname":"Daniel", "birthcity":"Londres", "role":"Harry Potter", "birthdate":"23/07/1989"},
+		{"lastname":"Grint", "firstname":"Rupert", "birthcity":"Harlow", "role":"Ron Weasley", "birthdate":"24/08/1988"},
+		{"lastname":"Rickman", "firstname":"Alan", "birthcity":"Londres", "role":"Severus Rogue", "birthdate":"21/02/1946"},
+		{"lastname":"Felton", "firstname":"Tom", "birthcity":"Epsom", "role":"Drago Malefoy", "birthdate":"22/09/1987"},	
+		{"lastname":"Gambon", "firstname":"Michael John", "birthcity":"Dublin", "role":"Albus Dumbledore", "birthdate":"19/10/1940"},
+		{"lastname":"Smith", "firstname":"Maggie", "birthcity":"Ilford", "role":"Minerva McGonagall", "birthdate":"28/12/1934"}
+	]
+}

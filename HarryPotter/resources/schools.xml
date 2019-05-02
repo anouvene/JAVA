@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schools>
+    <school>
+        <id>1</id>
+        <name>Gryffondor</name>
+        <desc>Une des quatre maisons de Poudlard. Son blason est un lion doré sur fond rouge.</desc>
+        <keywords>courageux fort</keywords>  
+    </school>
+    <school>
+        <id>2</id>
+        <name>Poufsouffle</name>
+        <desc>Une des quatre maisons de Poudlard. Son blason est un blaireau.</desc>
+        <keywords>juste loyal patient</keywords>
+    </school>
+    <school>
+        <id>3</id>
+        <name>Serdaigle</name>
+        <desc>Une des quatre maisons de Poudlard. Son blason est un aigle.</desc>
+        <keywords>sage réfléchi</keywords>
+    </school>
+    <school>
+        <id>4</id>
+        <name>Serpentard</name>
+        <desc>Une des quatre maisons de Poudlard. Son blason est un serpent</desc>
+        <keywords>malin roublard</keywords>
+    </school>
+</schools>
