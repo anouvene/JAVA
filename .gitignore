@@ -26,8 +26,9 @@ hs_err_pid*
 # Eclipse 
 .classpath 
 .project 
-.se1ngs/
-.recommenders/
+.settings
+.recommenders
+.checkstyle
 
 # Intellij 
 .idea/ 

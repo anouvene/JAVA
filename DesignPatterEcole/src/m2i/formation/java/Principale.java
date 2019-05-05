@@ -21,14 +21,14 @@ public class Principale {
 
 	public static void main(String[] args) {
 //		DAO_Eleve daoE = new DAO_Eleve();
-		IDAO_Note daoN = new DAO_Note();
+//		IDAO_Note daoN = new DAO_Note();
 		
 		//======== Eleve ==============
 		// Instancier un eleve
 //		Eleve e1 = new Eleve(100, "PIPO", "Vanessa");
 		
 		// Affecter les notes a eleve e1
-//		Note n1 = new Note(6, 12.5f, 1.0f, new Date(), Matiere.ANGLIAIS, e1);
+//		Note n1 = new Note(6, 12.5f, 1.0f, new Date(), Matiere.ANGLAIS, e1);
 //		Note n2 = new Note(7, 15.5f, 1.0f, new Date(), Matiere.FRANCAIS, e1);
 //		Note n3 = new Note(8, 16.0f, 1.0f, new Date(), Matiere.JAVA, e1);
 //		e1.ajouterNote(n1);
@@ -107,7 +107,30 @@ public class Principale {
 			Map<String, String> requetes = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
 			for(Entry<String, String> entry : requetes.entrySet()) {
 				System.out.println(entry.getKey() + ": " + entry.getValue());
-			}			
+			}
+			System.out.println("\n");
+			
+			Map<String, String> requetesBis = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
+			for(Entry<String, String> entry : requetesBis.entrySet()) {
+				System.out.println(entry.getKey() + ": " + entry.getValue());
+			}
+			
+			// createSql
+			System.out.println("\n" + Utilitaire.genererCreateSql("m2i.formation.java.business.Eleve"));
+			
+			// retrieveAllSql
+			System.out.println("\n" + Utilitaire.genererRetreiveAllSql("m2i.formation.java.business.Eleve"));
+			
+			// retrieveSql
+			System.out.println("\n" + Utilitaire.genererRetreiveSql("m2i.formation.java.business.Eleve"));
+			
+			// updateSql
+			System.out.println("\n" + Utilitaire.genererUpdateSql("m2i.formation.java.business.Eleve"));
+			
+			// deleteSql
+			System.out.println("\n" + Utilitaire.genererDeleteSql("m2i.formation.java.business.Eleve"));
+			
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
