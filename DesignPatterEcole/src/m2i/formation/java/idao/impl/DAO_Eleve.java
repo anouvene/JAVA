@@ -18,9 +18,9 @@ import m2i.formation.java.utilities.Connexion;
 import m2i.formation.java.utilities.Utilitaire;
 
 public class DAO_Eleve implements IDAO_Eleve<Eleve> {
-	final static String url = "jdbc:mysql://localhost:3306/dp_ecole?serverTimezone=UTC";
-	final static String user = "root";
-	final static String password = "";	
+	final static String url = "jdbc:mysql://151.80.59.182:3306/dp_ecole?serverTimezone=UTC";
+	final static String user = "m2ig1";
+	final static String password = "m2iFormation";	
 	private static Connection _cnn = Connexion.getConnexion(url, user, password);
 	
 	private PreparedStatement ps = null;
@@ -218,7 +218,7 @@ public class DAO_Eleve implements IDAO_Eleve<Eleve> {
 	 * @return List<Note> Liste de notes
 	 */
 	public List<Note> retreiveToutesLesNotesDunEleve(int idEleve) {
-		String querySelect = "select * FROM Note WHERE id_eleve=?";
+		String querySelect = "select * FROM note WHERE id_eleve=?";
 		List<Note> notes = new ArrayList<>();
 
 		

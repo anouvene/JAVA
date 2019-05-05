@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import m2i.formation.java.business.Eleve;
 import m2i.formation.java.business.Matiere;
@@ -19,7 +21,7 @@ public class Principale {
 
 	public static void main(String[] args) {
 //		DAO_Eleve daoE = new DAO_Eleve();
-//		IDAO_Note daoN = new DAO_Note();
+		IDAO_Note daoN = new DAO_Note();
 		
 		//======== Eleve ==============
 		// Instancier un eleve
@@ -48,7 +50,7 @@ public class Principale {
 //			System.out.println(e);
 //		}
 		
-		// Mettre a� jour un eleve
+		// Mettre a jour un eleve
 //		Eleve eleve2 = daoE.retreive(2);
 		// Modifier Eleve 1
 //		eleve2.setNom("VIVIAN");
@@ -98,16 +100,17 @@ public class Principale {
 //		noteToUpdate.setMatiere(Matiere.MATHS);
 //		System.out.println(daoN.update(noteToUpdate));
 		
-		
+		//==================================================================
+		// Tester le Map des requetes et java.lang.reflect.Field
+		//==================================================================
 		try {		
-			Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
-			
+			Map<String, String> requetes = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
+			for(Entry<String, String> entry : requetes.entrySet()) {
+				System.out.println(entry.getKey() + ": " + entry.getValue());
+			}			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 
 }

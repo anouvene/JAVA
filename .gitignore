@@ -27,6 +27,7 @@ hs_err_pid*
 .classpath 
 .project 
 .se1ngs/
+.recommenders/
 
 # Intellij 
 .idea/ 

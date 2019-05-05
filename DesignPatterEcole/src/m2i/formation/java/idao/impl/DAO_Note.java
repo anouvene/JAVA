@@ -17,9 +17,9 @@ import m2i.formation.java.utilities.Connexion;
 import m2i.formation.java.utilities.DateUtil;
 
 public class DAO_Note implements IDAO_Note<Note> {
-	final static String url = "jdbc:mysql://localhost:3306/dp_ecole?serverTimezone=UTC";
-	final static String user = "root";
-	final static String password = "";	
+	final static String url = "jdbc:mysql://151.80.59.182:3306/dp_ecole?serverTimezone=UTC";
+	final static String user = "m2ig1";
+	final static String password = "m2iFormation";	
 	private static Connection _cnn = Connexion.getConnexion(url, user, password);
 	
 	
