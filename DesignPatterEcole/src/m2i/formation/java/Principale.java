@@ -15,6 +15,7 @@ import m2i.formation.java.idao.IDAO_Note;
 import m2i.formation.java.idao.impl.DAO_Eleve;
 import m2i.formation.java.idao.impl.DAO_Note;
 import m2i.formation.java.utilities.Utilitaire;
+import m2i.formation.java.utilities.UtilitaireBis;
 
 
 public class Principale {
@@ -104,36 +105,62 @@ public class Principale {
 		// Tester le Map des requetes et java.lang.reflect.Field
 		//==================================================================
 		try {		
-			Map<String, String> requetes = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
-			for(Entry<String, String> entry : requetes.entrySet()) {
+			Map<String, String> reflectedRequest = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
+			for(Entry<String, String> entry : reflectedRequest.entrySet()) {
 				System.out.println(entry.getKey() + ": " + entry.getValue());
 			}
 			System.out.println("\n");
 			
-			Map<String, String> requetesBis = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Eleve");
-			for(Entry<String, String> entry : requetesBis.entrySet()) {
+			Map<String, String> reflectedRequestBis = Utilitaire.ListeDesRequetes("m2i.formation.java.business.Note");
+			for(Entry<String, String> entry : reflectedRequestBis.entrySet()) {
 				System.out.println(entry.getKey() + ": " + entry.getValue());
 			}
 			
 			// createSql
-			System.out.println("\n" + Utilitaire.genererCreateSql("m2i.formation.java.business.Eleve"));
+//			System.out.println("\n" + Utilitaire.genererCreateSql("m2i.formation.java.business.Eleve"));
 			
 			// retrieveAllSql
-			System.out.println("\n" + Utilitaire.genererRetreiveAllSql("m2i.formation.java.business.Eleve"));
+//			System.out.println("\n" + Utilitaire.genererRetreiveAllSql("m2i.formation.java.business.Eleve"));
 			
 			// retrieveSql
-			System.out.println("\n" + Utilitaire.genererRetreiveSql("m2i.formation.java.business.Eleve"));
+//			System.out.println("\n" + Utilitaire.genererRetreiveSql("m2i.formation.java.business.Eleve"));
 			
 			// updateSql
-			System.out.println("\n" + Utilitaire.genererUpdateSql("m2i.formation.java.business.Eleve"));
+//			System.out.println("\n" + Utilitaire.genererUpdateSql("m2i.formation.java.business.Eleve"));
 			
 			// deleteSql
-			System.out.println("\n" + Utilitaire.genererDeleteSql("m2i.formation.java.business.Eleve"));
+//			System.out.println("\n" + Utilitaire.genererDeleteSql("m2i.formation.java.business.Eleve"));
 			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+		
+		//=============================================================================
+		// Tester le Map des requetes sur les noms de colonnes des tables de la BDD
+		//=============================================================================
+		System.out.println("\nListe des noms de colonnes de la table Note: " + UtilitaireBis.listeDesColonnes("Note"));
+		
+		// create SQL
+//		System.out.println("\n" + UtilitaireBis.genererCreateSql("Note"));
+		
+		// retrieveAll SQL
+//		System.out.println(UtilitaireBis.genererRetreiveAllSql("Note"));
+		
+		// retrieve SQL
+//		System.out.println(UtilitaireBis.genererRetreiveSql("Note"));
+		
+		// update SQL
+//		System.out.println(UtilitaireBis.genererUpdateSql("Note"));
+		
+		// delete SQL
+//		System.out.println(UtilitaireBis.genererDeleteSql("Note") + "\n");
+				
+		Map<String, String> requetesBis = UtilitaireBis.ListeDesRequetesBis("Note");
+		for(Entry<String, String> entry : requetesBis.entrySet()) {
+			System.out.println(entry.getKey() + ": " + entry.getValue());
+		}
+		
+	}// Fin de main
 
 }

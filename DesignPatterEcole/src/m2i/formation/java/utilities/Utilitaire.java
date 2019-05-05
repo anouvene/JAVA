@@ -1,24 +1,21 @@
 package m2i.formation.java.utilities;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 
 public class Utilitaire {
 	
 	/**
 	 * Recuperer la liste des champs d'une classe
-	 * @param NomComplet Chaine composant le nom d une classe
+	 * @param nomComplet Chaine composant le nom d une classe
 	 * @return Field Liste des attributs
 	 * @throws ClassNotFoundException Exception de Class
 	 */
-	public static Field[] ListeDesChamps(String NomComplet) throws ClassNotFoundException {
+	public static Field[] ListeDesChamps(String nomComplet) throws ClassNotFoundException {
 		
-		Class<?> maClasse = Class.forName(NomComplet); // Charger une classse a chaud en memoire
+		Class<?> maClasse = Class.forName(nomComplet); // Charger une classse a chaud en memoire
 		Field[] fields = maClasse.getDeclaredFields(); // Attributs de la classe
 		
 		// Si heritage
@@ -39,37 +36,37 @@ public class Utilitaire {
 	
 	/**
 	 * Dictionnaire  de requetes (nom_requete/chaine_de_requequete) 
-	 * @param NomComplet Nom de classe
+	 * @param nomComplet Nom de classe
 	 * @return Map Dictionnaire (nom_requete/chaine_de_requequete)
 	 * @throws ClassNotFoundException Levee d Exception
 	 */
-	public static Map<String, String> ListeDesRequetes(String NomComplet) throws ClassNotFoundException {
+	public static Map<String, String> ListeDesRequetes(String nomComplet) throws ClassNotFoundException {
 
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 
 		 
 		// Map de requetes
 		Map<String, String> requetes = new HashMap<>();
 		
 		// create
-		String createSql = "INSERT INTO " + nomTable + "(";
+		String createSql = "INSERT INTO " + nomClasse + "(";
 
 		// retreiveAll
-		String retreiveAllSql = "SELECT * FROM " + nomTable;
+		String retreiveAllSql = "SELECT * FROM " + nomClasse;
 		
 		// retreive
-		String retreiveSql = "SELECT * FROM " + nomTable + " WHERE ";
+		String retreiveSql = "SELECT * FROM " + nomClasse + " WHERE ";
 		
 		// update
-		String updateSql = "UPDATE " + nomTable + " SET ";
+		String updateSql = "UPDATE " + nomClasse + " SET ";
 		
 		// delete
-		String deleteSql = "DELETE FROM " + nomTable + " WHERE ";
+		String deleteSql = "DELETE FROM " + nomClasse + " WHERE ";
 		
 		// Attributs de la classe
-		Field[] attributs = Utilitaire.ListeDesChamps(NomComplet);		
+		Field[] attributs = Utilitaire.ListeDesChamps(nomComplet);		
 		
 		String cle = "" ; // id_de_la_classe
 		StringBuilder champsToCreate = new StringBuilder(); // Champs a creer
@@ -80,8 +77,11 @@ public class Utilitaire {
 		for(Field f : attributs) {
 			// Obtenir la cle
 			String debutNomAttribut = f.getName().toLowerCase().substring(0,2) ; // Extraire les 2 premiers caracteres
-			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equals("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
-				cle = f.getName() ; // Cle à obtenir
+			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equalsIgnoreCase("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
+				String idChaine = f.getName().substring(2,f.getName().length()); // Extraire la sous-chaine relative à nomClasse
+				if(idChaine.equalsIgnoreCase(nomClasse)) {
+					cle = f.getName() ; // Cle relative au nom de la classe "nomClasse"
+				}
 			} else {
 				// Concatener tous les champs pour le UPDATE
 				champsToUpdate.append(f.getName() + "=?,"); // avec ajout de "=?," sur chaque champs => Ex: "nom=?,"				
@@ -144,34 +144,34 @@ public class Utilitaire {
 
 	/**
 	 * Dictionnaire  de requetes (nom_requete/chaine_de_requequete) 
-	 * @param NomComplet Nom de classe
+	 * @param nomComplet Nom de classe
 	 * @return Map Dictionnaire (nom_requete/chaine_de_requequete)
 	 * @throws ClassNotFoundException Levee d Exception
 	 */
-	public static Map<String, String> ListeDesRequetesBis(String NomComplet) throws ClassNotFoundException {
+	public static Map<String, String> ListeDesRequetesBis(String nomComplet) throws ClassNotFoundException {
 
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 
 		 
 		// Map de requetes
 		Map<String, String> requetes = new HashMap<>();
 		
 		// create
-		String createSql = Utilitaire.genererCreateSql(NomComplet);
+		String createSql = Utilitaire.genererCreateSql(nomComplet);
 		
 		// retreiveAll
-		String retreiveAllSql = Utilitaire.genererRetreiveAllSql(NomComplet);
+		String retreiveAllSql = Utilitaire.genererRetreiveAllSql(nomComplet);
 		
 		// retreive
-		String retreiveSql = Utilitaire.genererRetreiveSql(NomComplet);
+		String retreiveSql = Utilitaire.genererRetreiveSql(nomComplet);
 				
 		// update
-		String updateSql = Utilitaire.genererUpdateSql(NomComplet);
+		String updateSql = Utilitaire.genererUpdateSql(nomComplet);
 		
 		// delete
-		String deleteSql = Utilitaire.genererDeleteSql(NomComplet);
+		String deleteSql = Utilitaire.genererDeleteSql(nomComplet);
 		
 		// ==================================================================
 		// Ajouter les Requetes formees dans un Map
@@ -188,21 +188,21 @@ public class Utilitaire {
 
 	/**
 	 * Generer INSERT INTO Eleve(idEleve, nom, prenom, notes) VALUES(?,?,?,?)
-	 * @param NomComplet Nom de la classe
+	 * @param nomComplet Nom de la classe
 	 * @return String Requete a retourner
 	 * @throws ClassNotFoundException Levee d exception de Class
 	 */
-	public static String genererCreateSql(String NomComplet) throws ClassNotFoundException {
+	public static String genererCreateSql(String nomComplet) throws ClassNotFoundException {
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 
 		
 		// create
-		String createSql = "INSERT INTO " + nomTable + "(";
+		String createSql = "INSERT INTO " + nomClasse + "(";
 		
 		// Attributs de la classe
-		Field[] attributs = Utilitaire.ListeDesChamps(NomComplet);		
+		Field[] attributs = Utilitaire.ListeDesChamps(nomComplet);		
 		
 		StringBuilder champsToCreate = new StringBuilder(); // Champs a creer
 		StringBuilder valeursToCreate = new StringBuilder(); // Valeurs a creer
@@ -226,11 +226,11 @@ public class Utilitaire {
 	
 	/**
 	 * Generer SELECT * FROM Eleve
-	 * @param NomComplet Nom de classe a fournir
+	 * @param nomComplet Nom de classe a fournir
 	 * @return String Requete a retourner
 	 */
-	public static String genererRetreiveAllSql(String NomComplet) {
-		String[] parties = NomComplet.split("\\.");
+	public static String genererRetreiveAllSql(String nomComplet) {
+		String[] parties = nomComplet.split("\\.");
 		String nomtable = parties[parties.length -1];	
 
 		return "SELECT * FROM " + nomtable ;
@@ -238,21 +238,21 @@ public class Utilitaire {
 		
 	/**
 	 * Generer SELECT * FROM Eleve WHERE idEleve=?
-	 * @param NomComplet Nom de classe a fournir
+	 * @param nomComplet Nom de classe a fournir
 	 * @return String Requete a retourner
 	 * @throws ClassNotFoundException 
 	 */
-	public static String genererRetreiveSql(String NomComplet) throws ClassNotFoundException {
+	public static String genererRetreiveSql(String nomComplet) throws ClassNotFoundException {
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 
 		 				
 		// Retreive
-		String retreiveSql = "SELECT * FROM " + nomTable + " WHERE ";
+		String retreiveSql = "SELECT * FROM " + nomClasse + " WHERE ";
 				
 		// Attributs de la classe
-		Field[] attributs = Utilitaire.ListeDesChamps(NomComplet);		
+		Field[] attributs = Utilitaire.ListeDesChamps(nomComplet);		
 		
 		String cle = "" ; // id_de_la_class
 		
@@ -260,9 +260,11 @@ public class Utilitaire {
 		for(Field f : attributs) {
 			// Obtenir la cle
 			String debutNomAttribut = f.getName().toLowerCase().substring(0,2) ; // Extraire les 2 premiers caracteres
-			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equals("id")) // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"
-			{
-				cle = f.getName() ; // Cle à obtenir
+			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equalsIgnoreCase("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
+				String idChaine = f.getName().substring(2,f.getName().length()); // Extraire la sous-chaine relative à nomClasse
+				if(idChaine.equalsIgnoreCase(nomClasse)) {
+					cle = f.getName() ; // Cle relative au nom de la classe "nomClasse"
+				}
 			}			
 		}		
 		
@@ -279,21 +281,21 @@ public class Utilitaire {
 
 	/**
 	 * Requete UPDATE Eleve SET nom=?,prenom=?,notes=? WHERE idEleve=?
-	 * @param NomComplet Nom de la classe
+	 * @param nomComplet Nom de la classe
 	 * @return requete Requete UPDATE a retourner
 	 * @throws ClassNotFoundException Levee Exception
 	 */
-	public static String genererUpdateSql(String NomComplet) throws ClassNotFoundException {
+	public static String genererUpdateSql(String nomComplet) throws ClassNotFoundException {
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 		 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 		 
 		
 		// Update
-		String updateSql = "UPDATE " + nomTable + " SET ";
+		String updateSql = "UPDATE " + nomClasse + " SET ";
 				
 		// Attributs de la classe
-		Field[] attributs = Utilitaire.ListeDesChamps(NomComplet);		
+		Field[] attributs = Utilitaire.ListeDesChamps(nomComplet);		
 		
 		String cle = "" ; // id_de_la_classe
 		StringBuilder champsToUpdate = new StringBuilder(); // Champs a updater
@@ -302,8 +304,12 @@ public class Utilitaire {
 		for(Field f : attributs) {
 			// Obtenir la cle
 			String debutNomAttribut = f.getName().toLowerCase().substring(0,2) ; // Extraire les 2 premiers caracteres
-			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equals("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
-				cle = f.getName() ; // Cle à obtenir
+			 
+			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equalsIgnoreCase("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
+				String idChaine = f.getName().substring(2,f.getName().length()); // Extraire la sous-chaine relative à nomClasse
+				if(idChaine.equalsIgnoreCase(nomClasse)) {
+					cle = f.getName() ; // Cle relative au nom de la classe "nomClasse"
+				}				
 			} else {
 				// Concatener tous les champs pour le UPDATE
 				champsToUpdate.append(f.getName() + "=?,"); // avec ajout de "=?," sur chaque champs => Ex: "nom=?,"				
@@ -327,21 +333,21 @@ public class Utilitaire {
 
 	/**
 	 * Requete DELETE FROM Eleve WHERE idEleve=?
-	 * @param NomComplet Nom de la classe
+	 * @param nomComplet Nom de la classe
 	 * @return Requete Requete DELETE a retourner
 	 * @throws ClassNotFoundException 
 	 */
-	public static String genererDeleteSql(String NomComplet) throws ClassNotFoundException {
+	public static String genererDeleteSql(String nomComplet) throws ClassNotFoundException {
 		// Extraire nom Table
-		String[] parties = NomComplet.split("\\.");
-		String nomTable = parties[parties.length-1]; // exemple nom de la clase Eleve		
-		// System.out.println(nomTable); 
+		String[] parties = nomComplet.split("\\.");
+		String nomClasse = parties[parties.length-1]; // exemple nom de la clase Eleve		
+		// System.out.println(nomClasse); 
 		 		
 		// Delete
-		String deleteSql = "DELETE FROM " + nomTable + " WHERE ";
+		String deleteSql = "DELETE FROM " + nomClasse + " WHERE ";
 		
 		// Attributs de la classe
-		Field[] attributs = Utilitaire.ListeDesChamps(NomComplet);		
+		Field[] attributs = Utilitaire.ListeDesChamps(nomComplet);		
 		
 		String cle = "" ; // id_de_la_classe
 		
@@ -349,8 +355,11 @@ public class Utilitaire {
 		for(Field f : attributs) {
 			// Obtenir la cle
 			String debutNomAttribut = f.getName().toLowerCase().substring(0,2) ; // Extraire les 2 premiers caracteres
-			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equals("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
-				cle = f.getName() ; // Cle à obtenir
+			if (debutNomAttribut.length() >= 2 && debutNomAttribut.equalsIgnoreCase("id")) { // Si debutNomAttribut contient au moins 2 caracteres ET contenant la chaine "id"		
+				String idChaine = f.getName().substring(2,f.getName().length()); // Extraire la sous-chaine relative à nomClasse
+				if(idChaine.equalsIgnoreCase(nomClasse)) {
+					cle = f.getName() ; // Cle relative au nom de la classe "nomClasse"
+				}
 			}
 		}
 		
