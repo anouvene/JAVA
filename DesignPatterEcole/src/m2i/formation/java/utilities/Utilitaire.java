@@ -11,19 +11,38 @@ import java.util.StringTokenizer;
 public class Utilitaire {
 	
 	/**
-	 * Recuperer la liste des champs
+	 * Recuperer la liste des champs d'une classe
 	 * @param NomComplet Chaine composant le nom d une classe
-	 * @return Field Liste des champs
+	 * @return Field Liste des attributs
 	 * @throws ClassNotFoundException Exception de Class
 	 */
 	public static Field[] ListeDesChamps(String NomComplet) throws ClassNotFoundException {
 		
 		Class<?> maClasse = Class.forName(NomComplet); // Charger une classse a chaud en memoire
-		return maClasse.getDeclaredFields();
+		Field[] fields = maClasse.getDeclaredFields(); // Attributs de la classe
+		
+		// Si heritage
+		if(maClasse.getSuperclass() != null) 
+		{
+			// Recuperer les attributs de la super classe		
+			Field[] superFields =  maClasse.getSuperclass().getDeclaredFields();
+		
+			// Fusionner fields et superFields
+			Field[] fusion = new Field[fields.length + superFields.length];			
+			System.arraycopy(fields, 0, fusion, 0, fields.length);
+			fields = fusion;
+		}
+				
+		return fields;
 		
 	}
 	
-	
+	/**
+	 * Dictionnaire  de requetes (nom_requete/chaine_de_requequete) 
+	 * @param NomComplet Nom de classe
+	 * @return Map Dictionnaire (nom_requete/chaine_de_requequete)
+	 * @throws ClassNotFoundException Levee d Exception
+	 */
 	public static Map<String, String> ListeDesRequetes(String NomComplet) throws ClassNotFoundException {
 
 		// Extraire nom Table
@@ -131,5 +150,4 @@ public class Utilitaire {
 		return requetes;
 		
 	}
-
 }
