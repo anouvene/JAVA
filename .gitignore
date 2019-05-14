@@ -29,6 +29,8 @@ hs_err_pid*
 .settings
 .recommenders
 .checkstyle
+apache-tomcat-9.0.19/
+Servers/
 
 # Intellij 
 .idea/ 
