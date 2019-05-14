@@ -22,6 +22,7 @@ public class Connexion
 					if (_instance == null)
 					{
 						try {
+							DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
 							_instance = DriverManager.getConnection(url, user, pwd);
 						} catch (SQLException e) {				
 							System.out.println(e.getMessage());;

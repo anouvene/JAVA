@@ -18,6 +18,7 @@ public class Personne
 	public void set_ID_Societe(int _ID_Societe) {
 		this._ID_Societe = _ID_Societe;
 	}
+	
 	public Personne(int _ID_Personne, String _Nom, String _Prenom, float _Poids, float _Taille, Genre _Sexe ) {
 		super();
 		this._ID_Personne = _ID_Personne;
