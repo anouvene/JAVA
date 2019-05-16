@@ -9,10 +9,6 @@ import java.util.List;
 
 public class DAO_Societe implements IDAO<Societe> {
 	
-//	final static String url = "jdbc:mysql://151.80.59.182:3306/dp_formation?serverTimezone=UTC" ;
-//	final static String user = "m2ig1";
-//	final static String pwd = "m2iFormation";
-	
 	final static String url = "jdbc:mysql://localhost:3306/dp_formation?serverTimezone=UTC" ;
 	final static String user = "root";
 	final static String pwd = "";	
