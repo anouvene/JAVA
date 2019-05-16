@@ -56,7 +56,7 @@ $(function() {
 			url : "SocieteServlet",
 			type : "GET",
 			dataType : "html",
-			data : "idSociete=" + $(this).attr("data-idsociete"),
+			data : "action=GET_ALL_PERSONNES&idSociete=" + $(this).attr("data-idsociete"),
 			success : function(res, status) {
 				$("#personnesTbody").html(res);
 			}
@@ -75,18 +75,33 @@ $(function() {
 	// Supprimer une societe
 	$("#societe_form").on("click", ".btn-delete", function() {
 		
-		$.ajax({
+		/*$.ajax({
 			url : "SocieteServlet",
 			type : "POST",
 			dataType : "html",
-			data : {
-				"idSociete": $(this).attr("data-idsociete"),
-				"action": "DELETE_SOCIETE"
-			},
+			
+//			data : {
+//				"idSociete": $(this).attr("data-idsociete"),
+//				"action": "DELETE_SOCIETE"
+//			},
+			
+			data: "action=DELETE_SOCIETE" + "&idSociete=" + $(this).attr("data-idsociete"),
 			success : function(res, status) {
 				$("#societesTbody").empty().html(res);
 			}
+		
+		
+		});*/
+		
+		$.ajax({
+			url : "SocieteServlet?idSociete=" + $(this).attr("data-idsociete"),
+			type : "DELETE",
+			dataType : "html",
+			success : function(res, status) {
+				$("#societesTbody").html(res);
+			}
 		});
+
 
 		// Vider et fermer notesTbody
 		$("#personnesTbody").empty();
@@ -95,173 +110,220 @@ $(function() {
 		
 	});
 			
-	// MODAL: Modifier un eleve	et ses notes
-	$("#eleveTbody").on("click", ".btn-edit", function() { // Delegate event click
+	// MODAL: Societe et ses employes
+	$("#societe_form").on("click", ".btn-edit", function() { // Delegate event click
 		$this = $(this); // .btn-edit
-
-		console.log("Nouveau tableau: ", tblEleves);
-
 		
-		// Fermer collapse notes
-		$("#collapseNotes").collapse("hide");
-		
-		// Eleve en cours	
-		let id = $this.closest(".actions").find("a.btn-voir").attr("data-ideleve");		
-		let eleve = RecupereElementDuTableau(tblEleves, id);		
-		
-		$('#editEleveModal').on('shown.bs.modal', function (e) {
+		// Fermer collapse personnes
+		$("#collapsePersonnes").collapse("hide");
+				
+		$('#editSocieteModal').on('shown.bs.modal', function (e) {
 			$(this).css({"padding-right": "0px", "display" :" block"}); // enlever padding-right du modal
 			
-			$(this).find("#notesModalTbody").empty();
+			$(this).find("#societesModalTbody").empty();
 			
-			$(this).find("input[name=idEleve]").val(eleve.idEleve);
-			$(this).find("input[name=nom]").val(eleve.nom);
-			$(this).find("input[name=prenom]").val(eleve.prenom);
-		  
-			// Notes
-			notes = eleve.notes;
-			
-			// Générer lignes de notes d'un eleve
-			GenererModalTableauNotesDunEleve(notes , $("#notesModalTbody"));
+			$.ajax({
+				url : "SocieteServlet",
+				type : "GET",
+				data: "action=READ_SOCIETE&idSociete=" + $this.attr("data-idsociete"),
+				dataType : "html",
+				success : function(res, status) {
+					$("#societeModal").html(res);
+				}
+			});
 		});
 	});
 	
-	// MODAL: Ajouter une ligne de note a un eleve
-	$("#btnModalAjoutNote").on("click", function() {
+	// MODAL: Ajouter une personne a la societe
+	$("#btnModalAjoutPersonne").on("click", function() {
 		$this = $(this); // .btn-edit
 
-		// Eleve en cours
-		const id = $this.parents(".modal-content").find("input[name=idEleve]").val();		
-		const eleve = RecupereElementDuTableau(tblEleves, id);
-
-		// Générer les lignes de notes
-		const nbNotes = eleve.notes.length;
+		// Societe en cours
+		const idSociete = $this.parents(".modal-content").find("input[name=idSociete]").val();		
+		const nbPersonnes = parseInt($("#societeModal").find("table").attr("data-nbpersonnes"), 10);
 			
-		// Générer les lignes de notes		
+		// Générer une ligne de personne	
 		$tr = $("<tr>"
-				+ "<td>" + "<input type='text' name='idNote' value='" + (nbNotes + 1) + "' class='form-control' readonly>" + "</td>"
-				+ "<td>" + "<input type='text' name='matiere' class='form-control'>" + "</td>"
-				+ "<td>" + "<input type='text' name='coef' class='form-control'>"+ "</td>"
-				+ "<td>" + "<input type=''text' name='valeur' class='form-control'>" +"</td>"
-				+ "<td>" + "<input type='text' name='dateExam' class='form-control'>" +"</td>"				
-				+ "<td><a href='#' title='Modifier une note' class='btn btn-success btn-warning btn-modal-edit'><i class='material-icons md-24'>border_color</i></a></td>"
-				+ "<td><a href='#' title='Annuler' class='btn btn-secondary btn-modal-cancel'><i class='material-icons md-24'>cancel</i></a></td>"		  
-				// + "<td><a href='#' title='Supprimer une note' class='btn btn-danger btn-modal-delete'><i class='material-icons md-24'>delete_forever</i></a></td>"						
+				+ "<td>" + "<input type='text' name='idPersonne' value='" + (nbPersonnes + 1) + "' class='form-control' readonly>" + "</td>"
+				+ "<td>" + "<input type='text' name='nom' class='form-control'>" + "</td>"
+				+ "<td>" + "<input type='text' name='prenom' class='form-control'>"+ "</td>"
+				+ "<td>" + "<input type=''text' name='poids' class='form-control'>" +"</td>"
+				+ "<td>" + "<input type='text' name='taille' class='form-control'>" +"</td>"
+				+ "<td>" + "<select name='sexe' class='form-control genre'><option value='MASCULIN'>MASCULIN</option><option value='FEMININ'>FEMININ</option></select>" +"</td>"
+				+ "<td><a href='#' title='Modifier une personne' class='btn btn-success btn-warning btn-modal-add' data-idpersonne='" + idSociete +"'><i class='material-icons md-24'>border_color</i></a></td>"
+				+ "<td><a href='#' title='Annuler' class='btn btn-secondary btn-modal-cancel'><i class='material-icons md-24'>cancel</i></a></td>"				
 				+ "</tr>");
 		
-		$tr.appendTo($("#notesModalTbody"));
+		$tr.appendTo($("#personnesModalTbody"));
+		
+		
+		// Récuperer la saisie et inserer dans la base via ajax
+		$(".btn-modal-add").find("i:contains('border_color')").on("click", function() {
+			$this = $(this);
+			// Change button appearance
+			if($this.text() === "border_color" && $this.closest("a").hasClass("btn-warning")) {
+				
+				$this.empty().text("edit");
+				$this.closest("a").removeClass("btn-warning");
+				
+				// Remove "readonly"
+				$this.closest("tr").find("input[name=nom], input[name=prenom], input[name=poids], input[name=taille], input[name=sexe]").attr("readonly", "readonly");
+				
+				// Get inputs values
+				const idPersonne = $(this).closest("tr").find("input[name=idPersonne]").val().trim();
+				const nom = $(this).closest("tr").find("input[name=nom]").val().trim();
+				const prenom = $(this).closest("tr").find("input[name=prenom]").val().trim();
+				const poids = $(this).closest("tr").find("input[name=poids]").val().trim();
+				const taille = $(this).closest("tr").find("input[name=taille]").val().trim();
+				const sexe = $(this).closest("tr").find("select[name=sexe]").val().trim();
+				
+				// Insert
+				if(idPersonne !== "" && nom !=="" && prenom !== "" && poids !== "" && taille !== "" && sexe !== "") {
+					$.ajax({
+						url: "SocieteServlet?action=CREATE_PERSONNE"
+							+ "&idPersonne=" + idPersonne 
+							+ "&nom=" + nom 
+							+ "&prenom=" + prenom
+							+ "&poids=" + poids
+							+ "&taille=" + taille
+							+ "&sexe=" + sexe
+							+ "&idSociete=" + idSociete,
+						type: "POST",
+						dataType: "html",
+						success: function(res, status) {
+							alert(status);				
+						}
+					});
+				}
+				
+			} else {
+				// Changer apparence bouton
+				$this.empty().text("border_color");
+				$this.closest("a").addClass("btn-warning");
+				
+				// Add "readonly"
+				$this.closest("tr").find("input[name=nom], input[name=prenom], input[name=poids], input[name=taille], input[name=sexe]").removeAttr("readonly");	
+				
+			}			
+			
+		});
+		
 
 		
 	});	
 
 	// MODAL: Annuler ajout note
-	$("#editEleveModal").on("click", ".btn-modal-cancel", function(){
+	$("#societeModal").on("click", ".btn-modal-cancel", function() {
 		$(this).closest("tr").remove();
 	});
 	
-	// MODAL: Modifier ligne note
-	$("#editEleveModal").on("click", ".btn-modal-edit", function() {
+	// MODAL: Modifier une ligne de personne
+	$("#editSocieteModal").on("click", ".btn-modal-edit", function() {
 		
 		if($(this).find("i").text() === "edit" && $(this).closest("a").hasClass("btn-success")) {
 			// Change button appearance
 			$(this).find("i").empty().text("border_color");
 			$(this).closest("a").addClass("btn-warning");
 			
-			$(this).closest("tr").find("input[name=matiere], input[name=coef], input[name=valeur], input[name=dateExam]").removeAttr("readonly");
-						
+			// Remove "readonly"
+			$(this).closest("tr").find("input[name=nom], input[name=prenom], input[name=poids], input[name=taille], input[name=sexe]").removeAttr("readonly");
+			
+			
 		} else {
+			// Changer apparence bouton
 			$(this).find("i").empty().text("edit");
 			$(this).closest("a").removeClass("btn-warning");
 			
-			$(this).closest("tr").find("input[name=matiere], input[name=coef], input[name=valeur], input[name=dateExam]").attr("readonly", "readonly");	
-			
-			$(this).closest("tr").find("input[name=matiere], input[name=coef], input[name=valeur], input[name=dateExam]").attr("readonly", "readonly");	
+			// Add "readonly"
+			$(this).closest("tr").find("input[name=nom], input[name=prenom], input[name=poids], input[name=taille], input[name=sexe]").attr("readonly", "readonly");	
 			
 		}
+		
+		$(this).find("i:contains('border_color')").on("click", function() {
+			// Get inputs values
+			const idPersonne = $(this).closest("tr").find("input[name=idPersonne]").val().trim();
+			const nom = $(this).closest("tr").find("input[name=nom]").val().trim();
+			const prenom = $(this).closest("tr").find("input[name=prenom]").val().trim();
+			const poids = $(this).closest("tr").find("input[name=poids]").val().trim();
+			const taille = $(this).closest("tr").find("input[name=taille]").val().trim();
+			const sexe = $(this).closest("tr").find("input[name=sexe]").val().trim();
+
+			// Update
+			$.ajax({
+				url: "SocieteServlet?action=UPDATE_PERSONNE"
+					+ "&idPersonne=" + idPersonne 
+					+ "&nom=" + nom 
+					+ "&prenom=" + prenom
+					+ "&poids=" + poids
+					+ "&taille=" + taille
+					+ "&sexe=" + sexe,
+				type: "PUT",
+				dataType: "html",
+				success: function(res, status) {
+					// alert(status);
+				}
+			});
+		});
 	});
 
 	// MODAL: Mettre a jours eleve et ses notes
 	$('#btnModalMaj').on("click", function() {
 		// Fermer le modal d'edition eleve
-		$('#editEleveModal').modal('hide');
+		$('#editSocieteModal').modal('hide');
 		
-		$('#editEleveModal').on('hidden.bs.modal', function (e) {
+		$('#editSocieteModal').on('hidden.bs.modal', function (e) {
 			
-			// Eleve
-			const idEleveTxt = $(this).find("input[name=idEleve]").val();
-			const nomTxt = $(this).find("input[name=nom]").val().trim();
-			const prenomTxt = $(this).find("input[name=prenom]").val().trim();
+			// Societe
+			const idSocieteTxt = $(this).find("input[name=idSociete]").val().trim();
+			const nomTxt = $(this).find("input[name=nomSocieteTxt]").val().trim();
+			const caSocieteTxt = $(this).find("input[name=caSocieteTxt]").val().trim();
+			const activiteSocieteTxt = $(this).find("input[name=activiteSocieteTxt]").val().trim();
 			
-			// const EleveCourant = RecupereElementDuTableau(tblEleves, idEleveTxt);
-			let eleveToUpdate = null;
 			
-			eleveNotesToUpdate = [];
-			$("#notesModalTbody tr").each(function(){
-				// eleve notes
-				let idNoteTxt = $(this).find("input[name=idNote]").val();
-				let matiereTxt = $(this).find("input[name=matiere]").val().trim();
-				let coefTxt = $(this).find("input[name=coef]").val().trim();
-				let valeurTxt = $(this).find("input[name=valeur]").val().trim();
-				let dateExamTxt = $(this).find("input[name=dateExam]").val().trim();
-
-				// Champs note non vides
-				if(matiereTxt !== "" && coefTxt !== "" && valeurTxt !== "" && dateExamTxt !== "") {
-					let note = { 
-						idNote: idNoteTxt, 
-						valeur: valeurTxt, 
-						coef: coefTxt, 
-						matiere: matiereTxt, 
-						dateExam: dateExamTxt
-					};
-
-					eleveNotesToUpdate.push(note);
+			let societeToUpdate = "action=UPDATE_SOCIETE&idSociete=" + idSocieteTxt + "&nom=" + nomTxt + "&ca=" + caSocieteTxt + "&activite=" + activiteSocieteTxt;
+			
+			// Update la societe seule sans les personnes
+			$.ajax({
+				url : "SocieteServlet?" + societeToUpdate,
+				type : "PUT",
+				dataType : "html",
+				success : function(res, status) {
+					$("#societesTbody").html(res);
+					
+					// Icone du bouton "btn-voir" sur "visibility_off" pour eleve courant
+					$("#societesTbody")
+						.find(".btn-voir[data-idsociete=" + idSocieteTxt + "]").addClass("btn-success")
+							.find("i").empty().text("visibility_off").end()
+							.trigger("click"); // Reactualiser l'affichage des personnes
 				}
 			});
-			
-			eleveToUpdate = {
-					idEleve: idEleveTxt,
-					nom: nomTxt,
-					prenom: prenomTxt,
-					notes: eleveNotesToUpdate
-			};
-			
-			// Position de eleveToUpdate dans le tableau eleves (tblEleves)
-			const pos = tblEleves.findIndex(e => eleveToUpdate.idEleve == e.idEleve);
-			
-			// Mettre à jour la table tblEleves
-			tblEleves.splice(pos, 1, eleveToUpdate);
-			
-			// Regénérer l'affichage des éléve dans la page accueil
-			GenererTableauEleves(tblEleves , $("#eleveTbody"));
-
-			// Icone du bouton "btn-voir" sur "visibility_off" pour eleve courant
-			$("#eleveTbody")
-				.find(".btn-voir[data-ideleve=" + eleveToUpdate.idEleve + "]").addClass("btn-success")
-					.find("i").empty().text("visibility_off");
-
-			// Reactualiser l'affichage des notes
-			GenererTableauNotesDunEleve(eleveToUpdate , $("#notesTbody"));
-			$("#collapseNotes").collapse("show");			
-			
-		});
-		
+		});	
 	});
+	
+	
+	
 
-	// MODAL: Supprimer une note d un eleve
-	$("#editEleveModal").on("click", ".btn-modal-delete", function() {
-		const id_note = $(this).closest("tr").find("input[name=idNote]").val();
-		const id_eleve = $("#editEleveModal").find("input[name=idEleve]").val();
+	// MODAL: Supprimer une personne d une societe
+	$("#editSocieteModal").on("click", ".btn-modal-delete", function() {
+		$this = $(this);
+		
+		const idSociete = $("#editSocieteModal").find("input[name=idSociete]").val();
+		const idPersonne = $(this).closest("tr").find("input[name=idPersonne]").val();
+		alert(idSociete + "" + idPersonne)
 
-		const eleve = RecupereElementDuTableau(tblEleves, id_eleve);
-		const posNoteToDelete = eleve.notes.findIndex( n => n.idNote == id_note);
+		$.ajax({
+			url: "SocieteServlet?action=DELETE_PERSONNE&idSociete=" + idSociete + "&idPersonne=" + idPersonne,
+			type: "DELETE",
+			//dataType: "html",
+			success: function(res, status) {
+				alert(status);
+				
+				$this.closest("tr").remove();
+				
+			}
+		});
 
-		// Supprimer note eleve
-		eleve.notes.splice(posNoteToDelete, 1);
-
-		console.log(eleve.notes);
-
-		// Réactualiser l'affichage des notes
-		GenererModalTableauNotesDunEleve(eleve.notes, $("#notesModalTbody"));
+		
 
 	});
 		

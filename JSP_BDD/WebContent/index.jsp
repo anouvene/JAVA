@@ -44,6 +44,7 @@
 		</nav>
 	
 		<div class="container-fluid">
+			<!--  IMC -->
 			<div class="row">
 				<div class="col text-center">
 					<h1>Calculer votre indice de masse corporelle (IMC)</h1>
@@ -195,7 +196,7 @@
 											+ "<td class='actions'>"
 											+ "<a href='#collapsePersonnes' title='Voir les personnes' class='btn btn-primary btn-voir' data-idsociete='" + societe.get_ID_Societe() + "'" 
 											+ "data-toggle='collapse' data-target='#collapsePersonnes'><i class='material-icons md-24'>visibility</i></a> "	
-											+ "<a href='#societe' title='Modifier une societe' class='btn btn-warning btn-edit'"	
+											+ "<a href='#societe' title='Modifier une societe' class='btn btn-warning btn-edit' data-idsociete='" + societe.get_ID_Societe() + "'"	
 											+ "data-toggle='modal' data-target='#editSocieteModal'><i class='material-icons md-24'>edit</i></a> "	  
 											+ "<a href='#societe' title='Supprimer une societe' class='btn btn-danger btn-delete' data-idsociete='" + societe.get_ID_Societe() + "'><i class='material-icons md-24'>delete_forever</i></a>"									
 											+ "</td>"
@@ -209,8 +210,7 @@
 					</table>
 				</form>
 			
-			</div>
-			
+			</div>		
 			
 			<!-- EMPLOYES DE LA SOCIETE -->
 			<div id="collapsePersonnes" class="row collapse">
@@ -235,11 +235,33 @@
 					</table>
 				</div>
 			</div>
-		
-		
-		
-		
-		
+
+			<!-- MODAL: EDITION SOCIETE:PERSONNES -->
+			<div class="modal fade" id="editSocieteModal" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">Modifier une societe</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form id="societeModal">							
+
+													
+																		
+							</form>
+						</div>
+						<div class="modal-footer">
+							<a href="#" title="Ajouter une nouvelle personne" class="btn btn-secondary" id="btnModalAjoutPersonne">Ajouter une nouvelle personne</a>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+							<button type="button" class="btn btn-warning" id="btnModalMaj">MAJ</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
