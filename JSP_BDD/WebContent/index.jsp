@@ -160,8 +160,6 @@
 					    Diagnostic
 					  </label>
 					</div>
-					
-					
 				</div>
 			</form>
 		
@@ -209,8 +207,62 @@
 						</tbody>
 					</table>
 				</form>
+			</div>	
 			
-			</div>		
+			<!-- AJOUTER UNE SOCIETE -->
+			<div class="row">
+				<div class="col-md-6 offset-md-2">
+					<div class="form-group row justify-content-center">
+						<div class="col-sm-12">
+							<a href="#eleve_form_ajout" class="btn btn-primary" title="Ajouter une societe"
+								data-toggle="collapse" data-target="#collapseSocieteFormAjout">Ajouter une societe</a>
+						</div>
+					</div>
+					<!-- Formulaire ajout societe -->
+					<div class="collapse" id="collapseSocieteFormAjout">
+						<form id="eleve_form_ajout">
+							<!-- ID societe -->
+							<div class="form-group row">
+								<label for="txtID" class="col-sm-2 col-form-label col-form-label-lg">Id societe</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control form-control-lg" id="txtID">
+								</div>
+							</div>
+							
+							<!-- Nom -->
+							<div class="form-group row">
+								<label for="txtNom" class="col-sm-2 col-form-label col-form-label-lg">Nom</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control form-control-lg" id="txtNom">
+								</div>
+							</div>
+							
+							<!-- CA -->
+							<div class="form-group row">
+								<label for="txtCA" class="col-sm-2 col-form-label col-form-label-lg">CA</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control form-control-lg" id="txtCA">
+								</div>
+							</div>
+							
+							<!-- Activite -->
+							<div class="form-group row">
+								<label for="txtActivite" class="col-sm-2 col-form-label col-form-label-lg">Activité</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control form-control-lg" id="txtActivite">
+								</div>
+							</div>
+							
+							<!-- Valider -->
+							<div class="form-group row justify-content-center">
+								<div class="col-sm-4">
+									<input type="button" class="form-control btn btn-success" value="Valider" id="btnAddSociete">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 			
 			<!-- EMPLOYES DE LA SOCIETE -->
 			<div id="collapsePersonnes" class="row collapse">

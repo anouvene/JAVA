@@ -26,8 +26,9 @@ public class DAO_Societe implements IDAO<Societe> {
 			PreparedStatement ps = _Cnn.prepareStatement(chSql);			
 			ps.setInt(1, s.get_ID_Societe());
 			ps.setString(2,s.get_Nom());
-			ps.setString(3,s.get_Activite());
-			ps.setFloat(4,s.get_CA());			
+			ps.setFloat(3,s.get_CA());	
+			ps.setString(4,s.get_Activite());
+			
 			rep = ps.executeUpdate();	
 			
 		    DAO_Personne daop = new DAO_Personne();
@@ -106,11 +107,11 @@ public class DAO_Societe implements IDAO<Societe> {
 
 	@Override
 	public int Update(Societe s) {
-	int rep = -1 ;	
-	if (this.Retreive(s.get_ID_Societe()) == null)
-	{
-		return this.Create(s);
-	}
+		int rep = -1 ;	
+		if (this.Retreive(s.get_ID_Societe()) == null)
+		{
+			return this.Create(s);
+		}
 		
 		String chSql = "Update Societe Set nom = ?, activite = ? , ca = ? where id_societe = ?" ;		
 		

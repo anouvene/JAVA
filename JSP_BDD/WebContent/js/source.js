@@ -1,36 +1,47 @@
-$(function() {
-	// Génerer tableau eleves
-	// GenererTableauEleves(tblEleves , $("#eleveTbody"));
-	
-	// Ajouter eleve
-	$("#btnAddEleve").on("click", function() {
-
-		const nomTxt = $("#txtNom").val().trim();
-		const prenomTxt = $("#txtPrenom").val().trim();
-
-		if(nomTxt !== "" && prenomTxt !== "") {
-			// Nouvel eleve
-			const eleve = {
-				idEleve: tblEleves.length + 1,
-				nom: nomTxt,
-				prenom: prenomTxt,
-				notes: []
-			}
-
-			// Ajouter eleve dans la table tblEleves
-			tblEleves.push(eleve);
+// Lister toutes les sociétes
+function getAllSocietes() {		
+	$.ajax({				
+		url: 'SERVLET_BDD',
+		type:'GET',
+		data: "action=READ_ALL_SOCIETE",
+		dataType: 'html',
+		success:function(code,status)
+		{			
+			$("#societesTbody").html(code);
 		}
-		
-		// Vider les champs
-		$("#txtIdEleve").val("");
-		$("#txtNom").val("");
-		$("#txtPrenom").val("");
-		
-		// Fermer le formulaire d'edition
-		$('#collapseEleveFormAjout').collapse('hide');
+    });
+}
 
-		// Reactualiser l affichage des eleves
-		GenererTableauEleves(tblEleves , $("#eleveTbody"));
+$(function() {
+	
+	// Ajouter une societe
+	$("#btnAddSociete").on("click", function() {
+
+		const idTxt = $("#txtID").val().trim();
+		const nomTxt = $("#txtNom").val().trim();
+		const caTxt = $("#txtCA").val().trim();
+		const activiteTxt = $("#txtActivite").val().trim();
+		
+		const actions = {}
+		$.ajax({				
+			url: 'SocieteServlet',
+			type:'POST',
+			data: "action=DEFAULT&action1=CREATE_SOCIETE&idSociete=" + idTxt + "&nomSociete=" + nomTxt + "&activite=" + activiteTxt + "&caSociete=" + caTxt, 
+			dataType: 'html',
+			success:function(code, status)
+			{
+				// alert(status);
+				// Reactualiser les societes
+				// getAllSocietes();
+				$("#societesTbody").html(code);
+				
+				// Fermer et vider formulaire d ajout
+				$("#collapseSocieteFormAjout").find("form#eleve_form_ajout input[type=text]").val("").end().collapse("hide");
+				
+			}
+        });
+
+	
 		
 	});
 
@@ -56,7 +67,7 @@ $(function() {
 			url : "SocieteServlet",
 			type : "GET",
 			dataType : "html",
-			data : "action=GET_ALL_PERSONNES&idSociete=" + $(this).attr("data-idsociete"),
+			data : "action=READ_ALL_PERSONNES&idSociete=" + $(this).attr("data-idsociete"),
 			success : function(res, status) {
 				$("#personnesTbody").html(res);
 			}
@@ -94,7 +105,7 @@ $(function() {
 		});*/
 		
 		$.ajax({
-			url : "SocieteServlet?idSociete=" + $(this).attr("data-idsociete"),
+			url : "SocieteServlet?action=DELETE_SOCIETE&idSociete=" + $(this).attr("data-idsociete"),
 			type : "DELETE",
 			dataType : "html",
 			success : function(res, status) {
@@ -180,7 +191,7 @@ $(function() {
 				// Insert
 				if(idPersonne !== "" && nom !=="" && prenom !== "" && poids !== "" && taille !== "" && sexe !== "") {
 					$.ajax({
-						url: "SocieteServlet?action=CREATE_PERSONNE"
+						url: "SocieteServlet?action1=CREATE_PERSONNE"
 							+ "&idPersonne=" + idPersonne 
 							+ "&nom=" + nom 
 							+ "&prenom=" + prenom
@@ -191,7 +202,7 @@ $(function() {
 						type: "POST",
 						dataType: "html",
 						success: function(res, status) {
-							alert(status);				
+							// alert(status);				
 						}
 					});
 				}
@@ -309,14 +320,14 @@ $(function() {
 		
 		const idSociete = $("#editSocieteModal").find("input[name=idSociete]").val();
 		const idPersonne = $(this).closest("tr").find("input[name=idPersonne]").val();
-		alert(idSociete + "" + idPersonne)
+		// alert(idSociete + "" + idPersonne)
 
 		$.ajax({
 			url: "SocieteServlet?action=DELETE_PERSONNE&idSociete=" + idSociete + "&idPersonne=" + idPersonne,
 			type: "DELETE",
 			//dataType: "html",
 			success: function(res, status) {
-				alert(status);
+				// alert(status);
 				
 				$this.closest("tr").remove();
 				

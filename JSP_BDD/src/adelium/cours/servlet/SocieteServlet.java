@@ -3,6 +3,7 @@ package adelium.cours.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,6 +63,30 @@ public class SocieteServlet extends HttpServlet {
 		DAO_Personne daoPersonne = new DAO_Personne();
 
 		switch(request.getParameter("action")) {
+			case "READ_ALL_SOCIETE":
+				// Reactualiser affichage des societes
+//				IDAO<Societe> daoSociete = new DAO_Societe();
+//				String societesTR = "<tr>";
+//				List<Societe> societes = daoSociete.RetreiveAll();
+//				if(!societes.isEmpty()) {
+//					for(Societe s : societes) {
+//						societesTR += "<td>" + s.get_ID_Societe() + "</td>"
+//								+ "<td>" + s.get_Nom() + "</td>"
+//								+ "<td>" + s.get_CA() + "</td>"
+//								+ "<td>" + s.get_Activite() + "</td>"
+//								+ "<td class='actions'>"
+//								+ "<a href='#collapsePersonnes' title='Voir les personnes' class='btn btn-primary btn-voir' data-idsociete='" + s.get_ID_Societe() + "'" 
+//								+ "data-toggle='collapse' data-target='#collapsePersonnes'><i class='material-icons md-24'>visibility</i></a> "	
+//								+ "<a href='#societe' title='Modifier une societe' class='btn btn-warning btn-edit' data-idsociete='" + s.get_ID_Societe() + "'"	
+//								+ "data-toggle='modal' data-target='#editSocieteModal'><i class='material-icons md-24'>edit</i></a> "	  
+//								+ "<a href='#societe' title='Supprimer une societe' class='btn btn-danger btn-delete' data-idsociete='" + s.get_ID_Societe() + "'><i class='material-icons md-24'>delete_forever</i></a>"									
+//								+ "</td>"
+//								+ "</tr>";	
+//					}	
+//				}
+//				
+//				out.print(societesTR);
+				break;
 			case "READ_SOCIETE": // MODAL
 				int idSociete = Integer.parseInt(request.getParameter("idSociete"));
 				Societe societe = daos.Retreive(idSociete);
@@ -101,7 +126,7 @@ public class SocieteServlet extends HttpServlet {
 				out.append(infosSociete + personnesDuneSocieteTR);
 				break;
 			
-			case "GET_ALL_PERSONNES":
+			case "READ_ALL_PERSONNES":
 				int idSociete2 = Integer.parseInt(request.getParameter("idSociete"));
 				Societe societe2 = daos.Retreive(idSociete2);
 				
@@ -171,33 +196,62 @@ public class SocieteServlet extends HttpServlet {
 //			doDelete(request, response);
 //		}
 		
-		switch(request.getParameter("action")) {
-			case "CREATE_PERSONNE":
-//				System.out.println(request.getParameter("idPersonne"));
-//				System.out.println(request.getParameter("nom"));
-//				System.out.println(request.getParameter("prenom"));
-//				System.out.println(request.getParameter("poids"));
-//				System.out.println(request.getParameter("taille"));
-//				System.out.println(request.getParameter("sexe"));
-				
-				DAO_Personne daoPersonne = new DAO_Personne();
-				Personne p = new Personne(
-						Integer.parseInt(request.getParameter("idPersonne")), 
-						request.getParameter("nom"),
-						request.getParameter("prenom"),
-						Float.parseFloat(request.getParameter("poids")),
-						Float.parseFloat(request.getParameter("taille")),
-						Genre.valueOf(request.getParameter("sexe")),
-						Integer.parseInt(request.getParameter("idSociete")));
-				
-				daoPersonne.Create(p);
-				
-				break;
+		
+//		Map<String, String[]> mapParams = request.getParameterMap();
+//		String[] paramValues = null;
+//		for(Map.Entry<String, String[]> e: mapParams.entrySet()) {
+//			if(e.getKey().equals("action")) {
+//				 paramValues = e.getValue();
+//			
+//				 for(int i=0; i<paramValues.length; i++) {
+					// switch(paramValues[i]) {
+					switch(request.getParameter("action1")) {
+						case "CREATE_PERSONNE":
+			//				System.out.println(request.getParameter("idPersonne"));
+			//				System.out.println(request.getParameter("nom"));
+			//				System.out.println(request.getParameter("prenom"));
+			//				System.out.println(request.getParameter("poids"));
+			//				System.out.println(request.getParameter("taille"));
+			//				System.out.println(request.getParameter("sexe"));
+							
+							DAO_Personne daoPersonne = new DAO_Personne();
+							Personne p = new Personne(
+									Integer.parseInt(request.getParameter("idPersonne")), 
+									request.getParameter("nom"),
+									request.getParameter("prenom"),
+									Float.parseFloat(request.getParameter("poids")),
+									Float.parseFloat(request.getParameter("taille")),
+									Genre.valueOf(request.getParameter("sexe")),
+									Integer.parseInt(request.getParameter("idSociete")));
+							
+							daoPersonne.Create(p);
+						case "CREATE_SOCIETE":
+							
+							System.out.println(request.getParameter("idSociete"));
+							System.out.println(request.getParameter("nomSociete"));
+							System.out.println(request.getParameter("activite"));
+							System.out.println(request.getParameter("caSociete"));
+							
+							DAO_Societe dao = new DAO_Societe();
 			
-		}
-		
-		
-	}
+							int id = Integer.parseInt(request.getParameter("idSociete"));
+							String nom = request.getParameter("nomSociete");
+							String activite = request.getParameter("activite");
+							float ca = Float.parseFloat(request.getParameter("caSociete"));
+			
+							// Inserer Societe dans la base de donnees
+							Societe s = new Societe(id, nom, activite, ca);
+							dao.Create(s);
+							int rep = dao.Create(s);
+							
+							// Reactaualiser les societes
+							doGet(request, response);
+							break;						
+					}
+				}		
+//			}						
+//		}
+//	}
 
 	/**
 	 * Delete Societe et Personne(s)
