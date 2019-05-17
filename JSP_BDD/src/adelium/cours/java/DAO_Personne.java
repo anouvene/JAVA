@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DAO_Personne implements IDAO<Personne> 
 {
-		
+
 	final static String url = "jdbc:mysql://localhost:3306/dp_formation?serverTimezone=UTC" ;
 	final static String user = "root";
 	final static String pwd = "";	
