@@ -52,7 +52,7 @@
 
 		<!-- CANVAS -->
 		<div id="collapseCanvas" class="collapse">
-			<canvas id="canvas" width="500" height="250"></canvas>
+			<canvas id="canvas"></canvas>
 		</div>
 		
 		<!-- Modal -->

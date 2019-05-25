@@ -5,6 +5,7 @@ body {
 canvas {
 	display: block;
 	margin: 0 auto;
+	/*padding: 10px;*/
 	background-color : #dae2f2;
 	border : solid 1px grey;
 	border-radius : 10px;
@@ -20,4 +21,4 @@ canvas {
 	font-weight : bold;	
 }
 
-#collapseCanvas { margin-top: 20px}
+#collapseCanvas { margin: 20px 0; }

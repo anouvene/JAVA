@@ -91,53 +91,71 @@ function dessinerRectangle(forme) {
 	if (canvas.getContext) {
 		let context = canvas.getContext('2d');
 	
-		// origine canvas
-		let xcanvas = canvas.width / 2;
-		let ycanvas = canvas.height / 2;
+		// Position centree du carre ou rectangle  dans le canvas
+		// let xcanvas = canvas.width / 2;
+		// let ycanvas = canvas.height / 2;
 		
-		// forme attributs
+		// Forme attributs: longueur et largeur
 		let lo = "";
 		let la = "";
-		let x = forme.x + xcanvas;
-		let y = forme.y + ycanvas;
 		
+		// Position dans le canvas
+		let x = forme.x;
+		let y = forme.y;
+		
+		// Nom de la forme
 		let nomForme = forme.nom_forme;
 		
-		if(nomForme.toLowerCase() == "carre") {
+		// Effacer la forme dans le canvas
+		context.clearRect(0,0, canvas.width, canvas.height);
+		
+		if(nomForme.toLowerCase() == "carre") { // Carre
+			// Dimension de la forme
 			lo = forme.cote;
-			la = forme.cote;
-		} else {
+			la = forme.cote;		
+		} else { // Rectangle
 			lo = forme.longueur;
 			la = forme.largeur;
 		}
 		
-		context.clearRect(0,0, canvas.width, canvas.height);
-		canvas.width = canvas.width;
+		// Definir dynamiquement la largeur et hauteur du canvas en fonction de la dimension de la forme 
+		// et centrer cette derniere dans la canvas
+		canvas.width = lo + 2*x;
+		canvas.height = la + 2*y;
 		
+		// Dessiner et remplir la forme
 		context.fillRect(x, y, lo, la);
 	}
-  
 	
 }
 
 // Dessiner un cercle
 function dessinerCercle(forme) {
 	var canvas = document.getElementById('canvas');
-	let xcanvas = canvas.width / 2;
-	let ycanvas = canvas.height / 2;
-
-	let x = forme.x + xcanvas;
-	let y = forme.y + ycanvas;
+	
+	// Position centree de cercle dans le canvas
+	// let xcanvas = canvas.width / 2;
+	// let ycanvas = canvas.height / 2;
+	
+	// Position du cercle dans le canvas
+	let x = forme.x;
+	let y = forme.y;
 	let r = forme.rayon;
 	  
   if (canvas.getContext) {
     let context = canvas.getContext('2d');
+    
+    // Effacer la forme dans le canvas
     context.clearRect(0,0, canvas.width, canvas.height);
     
-	canvas.width = canvas.width;
-
+    // Definir dynamiquement la largeur et hauteur du canvas en fonction de la dimension de la forme 
+	// et de x et y 
+	let canvasW = canvas.width = 2*r + x;
+	let canvasH = canvas.height = 2*r + y;
+	
+	// Dessiner le Cercle et le centrer dans la canvas
 	context.beginPath();
-    context.arc(x, y, r, 0, Math.PI * 2, true);  // Cercle extérieur
+    context.arc(canvasW/2, canvasH/2, r, 0, Math.PI * 2, true);  // Cercle : x, y, 0 => inclinaison de depart, true => sens inverse des aiguilles d'une montre
     context.fill();
     context.stroke();
 
