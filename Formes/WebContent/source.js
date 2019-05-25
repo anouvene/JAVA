@@ -84,71 +84,43 @@ function genererTableForme(formes) {
 	$("#formesBody").html(formesTR);
 }
 
+// Dessiner un rectangle ou carre
 function dessinerRectangle(forme) {
 	var canvas = document.getElementById('canvas');
-	let context = canvas.getContext('2d');
-			
 	  
 	if (canvas.getContext) {
-	    var ctx = canvas.getContext('2d');
+		let context = canvas.getContext('2d');
 	
-	
+		// origine canvas
 		let xcanvas = canvas.width / 2;
 		let ycanvas = canvas.height / 2;
 		
-		let nomForme = forme.nom_forme;
-	
-		let lo = forme.longueur;
-		let la = forme.largeur;
+		// forme attributs
+		let lo = "";
+		let la = "";
 		let x = forme.x + xcanvas;
 		let y = forme.y + ycanvas;
-
-
+		
+		let nomForme = forme.nom_forme;
+		
+		if(nomForme.toLowerCase() == "carre") {
+			lo = forme.cote;
+			la = forme.cote;
+		} else {
+			lo = forme.longueur;
+			la = forme.largeur;
+		}
 		
 		context.clearRect(0,0, canvas.width, canvas.height);
 		canvas.width = canvas.width;
 		
-	    ctx.fillRect(x, y, lo, la);
+		context.fillRect(x, y, lo, la);
 	}
   
 	
 }
 
-function dessinerCarre(forme) {
-	var canvas = document.getElementById('canvas');
-	let context = canvas.getContext('2d');
-			
-	  
-	if (canvas.getContext) {
-	    var ctx = canvas.getContext('2d');
-	
-	
-		let xcanvas = canvas.width / 2;
-		let ycanvas = canvas.height / 2;
-		
-		let nomForme = forme.nom_forme;
-
-		let lo = forme.cote;
-		let la = forme.cote;
-		let x = forme.x + xcanvas;
-		let y = forme.y + ycanvas;
-
-
-		
-		context.clearRect(0,0, canvas.width, canvas.height);
-		canvas.width = canvas.width;
-		
-		
-		context.rect(x, y, lo,la);
-		context.fill();
-
-	}
-  
-	
-}
-
-
-
+// Dessiner un cercle
 function dessinerCercle(forme) {
 	var canvas = document.getElementById('canvas');
 	let xcanvas = canvas.width / 2;
@@ -157,21 +129,17 @@ function dessinerCercle(forme) {
 	let x = forme.x + xcanvas;
 	let y = forme.y + ycanvas;
 	let r = forme.rayon;
-	
-	let context = canvas.getContext('2d');
-
-	
-	context.clearRect(0,0, canvas.width, canvas.height);
-	canvas.width = canvas.width;
-	
 	  
   if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+    let context = canvas.getContext('2d');
+    context.clearRect(0,0, canvas.width, canvas.height);
+    
+	canvas.width = canvas.width;
 
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2, true);  // Cercle extérieur
-    ctx.fill();
-    ctx.stroke();
+	context.beginPath();
+    context.arc(x, y, r, 0, Math.PI * 2, true);  // Cercle extérieur
+    context.fill();
+    context.stroke();
 
   }
 }
@@ -201,7 +169,7 @@ $(document).ready(function() {
 	});
 	
 	$("#btnAjouter").on("click", function() {
-		// récupérer les valeurs saisies de la forme selectionnée
+		// Récupérer les valeurs saisies de la forme selectionnée
 		let txtX = $("#txtX").val().trim();
 		let txtY = $("#txtY").val().trim();
 		let txtRayon = $("#txtRayon").val().trim();
@@ -258,46 +226,28 @@ $(document).ready(function() {
 		affichageFormes();	
 	});
 	
-	// dessiner des formes avec canevas
-	
+	// Dessiner des formes avec canevas	
 	$("#formesBody").on("click",".btn-dessiner",function(){
 		let id_forme = $(this).attr("data-idforme");
 		// trouver le contenu de td contenant le nom de la forme
 		let nom_forme = $(this).closest("tr").find("td:eq(1)").text();
-		// alert(nom_forme);
 		
-		$.ajax({
-			
+		$.ajax({			
 			url: "forme?action=DESSINER&idForme=" + id_forme + "&nomForme=" + nom_forme,
 			type: "Get",
 			dataType: "json",
 			success: function(forme,status){
 				let nomforme = forme.nom_forme;
-				switch (nomforme.toLowerCase()) {   // équivalent à
-													// forme["nom_forme"]
+				switch (nomforme.toLowerCase()) {   // équivalent à forme["nom_forme"]
 					case "cercle":						
 						dessinerCercle(forme);
-					break;
-					case "rectangle":											
+						break;
+					default:											
 						dessinerRectangle(forme);
-					break;
-					case "carre": 						
-						dessinerCarre(forme);
-					break;
-				
-				
 				} 
 			}
-		
-		
-			
-			
-			
-		})
-		
-		
-		
-	})
+		});
+	});
 	
 }); // Fin Ready
 

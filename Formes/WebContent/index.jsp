@@ -16,9 +16,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="source.js"></script>
 
-
-
-
 <title>LISTE DES FORMES GEOMETRIQUES</title>
 </head>
 <body data-spy="scroll" data-target="#collapseCanvas">
@@ -142,11 +139,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
-
 	</div>
 	
 	<script>
