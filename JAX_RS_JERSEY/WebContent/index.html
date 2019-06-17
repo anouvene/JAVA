@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test Web Service</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet"
+	href="resources/stylesheets/style.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="resources/javascript/source.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">GET All SOCIETES</div>
+					<div class="card-body" id="getAllBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-primary" id="get">GET All SOCIETES</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">GET ONE SOCIETE BY ID</div>
+					<div class="card-body" id="getOneBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-primary" id="get">GET ONE SOCIETE BY ID</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">GET ALL PERONNES FROM SOCIETE</div>
+					<div class="card-body" id="getAllPersonnesBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-primary" id="get">GET ALL PERONNES FROM SOCIETE</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">POST</div>
+					<div class="card-body" id="postBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-secondary" id="post">POST ONE SOCIETE</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">PUT</div>
+					<div class="card-body" id="putBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-success" id="put">PUT</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="card">
+					<div class="card-header">DELETE</div>
+					<div class="card-body" id="deleteBody"></div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-danger" id="delete">DELETE</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
