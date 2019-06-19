@@ -53,7 +53,7 @@
 						TVA: 19.6 - Total TTC
 						<%
 							float HT = (Float) request.getAttribute("prixht");
-							float TTC = HT * 0.196f;
+							float TTC = HT + HT * 0.196f;
 							out.println(TTC);
 						%>
 					</div>
