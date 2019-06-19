@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(LigneDeCommandePK.class) // Classe qui encapsule la clé primaire composée(id_produit + id_commande)
+@IdClass(LigneDeCommandePK.class) // Classe qui encapsule la cle primaire composee (id_produit + id_commande)
 @Table(name="ligne_commande")
 public class LigneDeCommande implements Serializable {
 	

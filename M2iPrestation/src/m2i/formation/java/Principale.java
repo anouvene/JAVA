@@ -21,7 +21,7 @@ public class Principale {
 
 			// Instancier les objets
 			Client c = new Client("Vettel", "Sebastian", "151fdff");
-			Commande p = new Commande(57, new Date(), c);
+			Commande p = new Commande(new Date(), c);
 			c.getCommandes().add(p);
 	
 			em.persist(c);

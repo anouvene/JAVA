@@ -19,5 +19,10 @@ public class ProduitService {
 		System.out.println( "Service"+ sql.getResultList());
 		return sql.getResultList();
 	}
+	
+	public Produit retreive(int id_produit) {
+		Produit produit = em.find(Produit.class, id_produit);		
+		return produit;
+	}
 
 }

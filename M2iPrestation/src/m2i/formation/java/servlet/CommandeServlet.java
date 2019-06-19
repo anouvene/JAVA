@@ -33,6 +33,8 @@ public class CommandeServlet extends HttpServlet {
 	private List<Produit> produits = new ArrayList<Produit>();
 	
 	private Gson gson =  new GsonBuilder().create();
+	
+	private ProduitService ps = new ProduitService(em);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,17 +49,11 @@ public class CommandeServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		response.setContentType("application/json");
 		
-		
 		ProduitService ps = new ProduitService(em);
 		
 		em.getTransaction().begin();
 		produits = ps.retreiveAll();
 		em.getTransaction().commit();
-		
-		System.out.println("Notre liste de produits : "+ produits);
-	
-		
-		
 		
 		out.append(gson.toJson(produits));
 		//request.getRequestDispatcher(path).forward(request, response);
@@ -69,10 +65,21 @@ public class CommandeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("DoPost() en action ...");
 		
+		int id_produit = Integer.parseInt(request.getParameter("lstproduits"));
+		String ref_client = request.getParameter("refclient");
+		Produit produit = ps.retreive(id_produit);
+		String intitule = produit.getIntitule();
+		System.out.println(intitule);
+		int duree = produit.getNb_jours();
+		float prix = produit.getPj_ht();
 		
+		request.setAttribute("intitule", intitule);
+		request.setAttribute("duree", duree);
+		request.setAttribute("prixht", prix);
+		request.setAttribute("ref_client", ref_client);
 		
+		request.getRequestDispatcher("facture.jsp").forward(request, response);
 	}
 
 	/**

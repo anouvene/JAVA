@@ -24,7 +24,7 @@ public class Commande {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	private int nb_jours;
+	
 	private Date date_commande;
 
 	@ManyToOne 
@@ -42,16 +42,14 @@ public class Commande {
 		
 	public Commande() {}
 	
-	public Commande(int nb_jours, Date date_commande, Client client) {
-		this.nb_jours = nb_jours;
+	public Commande(Date date_commande, Client client) {
 		this.date_commande = date_commande;
 		this.client = client;
 	}
 	
-	public Commande(int id_commande, int nb_jours, Date date_commande, Client client) {
+	public Commande(int id_commande, Date date_commande, Client client) {
 		super();
 		this.id = id_commande;
-		this.nb_jours = nb_jours;
 		this.date_commande = date_commande;
 		this.client = client;
 	}
@@ -64,13 +62,6 @@ public class Commande {
 		this.id = id_commande;
 	}
 	
-	public int getNb_jours() {
-		return nb_jours;
-	}
-	
-	public void setNb_jours(int nb_jours) {
-		this.nb_jours = nb_jours;
-	}
 	
 	public Date getDate_commande() {
 		return date_commande;
